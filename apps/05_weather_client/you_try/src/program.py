@@ -41,5 +41,6 @@ def parse_weather(html: str):
     scale = soup.find(class_="wu-unit-temperature").find(class_="wu-label").get_text().strip()
     return WeatherReport(loc=loc, cond=condition, temp=temp, scale=scale)
 
+
 if __name__ == '__main__':
     main()

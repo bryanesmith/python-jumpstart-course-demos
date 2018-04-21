@@ -69,16 +69,14 @@ def search_folder(folder, search_text):
     for item in items:
         path = os.path.join(folder, item)
         if os.path.isdir(path):
-            matches.extend(search_folder(path, search_text))
+            yield from search_folder(path, search_text)
         else:
-            matches.extend(search_file(path, search_text))
+            yield from search_file(path, search_text)
 
     return matches
 
 
 def search_file(file, search_text):
-    matches = []
-
     with open(file, 'r', encoding='utf-8') as fin:
         line = 0
         try:
@@ -86,11 +84,9 @@ def search_file(file, search_text):
                 line += 1
                 if text.lower().find(search_text.lower()) >= 0:
                     sr = SearchResults(file=file, line=line, text=text)
-                    matches.append(sr)
+                    yield sr
         except UnicodeDecodeError:
             pass  # skip 'Can't decode byte' errors for binary files
-
-    return matches
 
 
 if __name__ == '__main__':

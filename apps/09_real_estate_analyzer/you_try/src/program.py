@@ -36,28 +36,25 @@ def load_file(file):
 
 
 def query_data(data):
-
     data.sort(key=lambda p: p.price)
 
-    print('The most expensive house: ${:,} with {} beds and {} baths'.format(data[-1].price, data[-1].beds, data[-1].baths))
-    print('The least expensive house: ${:,} with {} beds and {} baths'.format(data[0].price, data[0].beds, data[0].baths))
+    print('The most expensive house: ${:,} with {} beds and {} baths'.format(data[-1].price, data[-1].beds,
+                                                                             data[-1].baths))
+    print(
+        'The least expensive house: ${:,} with {} beds and {} baths'.format(data[0].price, data[0].beds, data[0].baths))
 
     # average price house
-    prices = []
-    for p in data:
-        prices.append(p.price)
-
-    avg_price = statistics.mean(prices)
+    avg_price = statistics.mean([p.price for p in data])
     print('The average house price is ${:,}'.format(int(avg_price)))
 
     # average price of 2 bedroom house
-    prices = []
-    for p in data:
-        if p.beds == 2:
-            prices.append(p.price)
-
-    avg_price = statistics.mean(prices)
-    print('The average house price for 2 bedroom is ${:,}'.format(int(avg_price)))
+    two_bed_homes = [p for p in data if p.beds == 2]
+    avg_price = statistics.mean([p.price for p in two_bed_homes])
+    avg_baths = statistics.mean([p.baths for p in two_bed_homes])
+    avg_sqft = statistics.mean([p.sq__ft for p in two_bed_homes])
+    print(
+        'The average house price for 2 bedroom is ${:,}, baths={}, sqft={}'.format(int(avg_price), round(avg_baths, 1),
+                                                                                   round(avg_sqft, 1)))
 
 
 if __name__ == '__main__':
